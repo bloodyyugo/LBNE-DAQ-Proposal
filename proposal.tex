@@ -1,0 +1,91 @@
+\documentclass[prc,12pt]{revtex4}
+%\documentclass[12pt]{article}
+
+%\usepackage{graphics}
+\usepackage[dvipdf]{graphicx}
+%\usepackage{subfig}  % For subfloats
+\usepackage[final]{pdfpages}
+\usepackage{subfigure}  % For subfloats
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{epsfig}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage{amsmath}
+\usepackage{footmisc}
+\usepackage{titlesec}
+%\usepackage{subfigure}
+\usepackage{hyperref}
+\usepackage{float}
+\newcommand{\footlabel}[2]{%
+    \addtocounter{footnote}{1}
+    \footnotetext[\thefootnote]{%
+        \addtocounter{footnote}{-1}%
+        \refstepcounter{footnote}\label{#1}%
+        #2%
+    }%
+    $^{\ref{#1}}$%
+}
+\usepackage{setspace} 
+\usepackage{rotating}
+
+%\SetBgContents{DRAFT}
+%\SetBgPosition{8.5cm,-11.5cm}
+%\backgroundsetup{contents=Confidential,color=blue!30}
+
+\def \rarr {\rightarrow}
+\def \grinp {\includegraphics}
+\def \tw {\textwidth}
+\def\dfrac#1#2{\displaystyle{{#1}\over{#2}}}
+\def \dstl {\displaystyle}
+\definecolor{GREEN}{rgb}{0.,0.8,0}
+\definecolor{RED}{rgb}{1,0,0}
+\definecolor{ORANGE}{rgb}{1,0.5,0}
+%
+\newcommand{\red[1]}{{\color{red}{\bf #1}}}
+\newcommand{\justifyheading}{\raggedright}
+\newcommand{\etal}{et al.}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\justifyheading}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\justifyheading}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\justifyheading}{\thesubsubsection}{1em}{}
+
+\renewcommand*{\thesection}{\arabic{section}}
+\renewcommand*{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand*{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+
+\makeatletter
+\def\p@subsection{}
+\def\p@subsubsection{}
+\makeatother
+
+\begin{document}
+
+%{\color{red} Sat Jan  5 09:31:10 PST 2013 } %GIT_REVISION_TIME
+
+\title{\bf\large{Proposal for an RCE-based DAQ system for LBNE}}
+
+\input{author_list}
+\date{\today}
+
+\begin{abstract}
+\clearpage
+\begin{centerline}
+{\bf {\large ABSTRACT}}
+\vspace{0.5cm}
+\end{centerline}
+\begin{singlespace}
+Abstract
+\end{singlespace}
+\end{abstract}
+
+\maketitle
+\clearpage
+
+\input{introduction}
+
+\input{bibl}
+
+\end{document}
