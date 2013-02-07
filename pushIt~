@@ -1,6 +1,0 @@
-#!/usr/bin/perl
-
-
-`git add .`'
-`git commit $ARGV[0]`;
-`git push origin`;
