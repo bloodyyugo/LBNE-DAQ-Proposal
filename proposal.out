@@ -1,14 +1,18 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}
 \BOOKMARK [1][-]{section.2}{The Data Acquisition Toolkit}{}
 \BOOKMARK [2][-]{subsection.2.1}{ATCA}{section.2}
-\BOOKMARK [2][-]{subsection.2.2}{Reconfigurable Cluster Element}{section.2}
-\BOOKMARK [2][-]{subsection.2.3}{Cluster-on-Board}{section.2}
-\BOOKMARK [2][-]{subsection.2.4}{Rear Transition Module}{section.2}
+\BOOKMARK [2][-]{subsection.2.2}{Rear Transition Module}{section.2}
+\BOOKMARK [2][-]{subsection.2.3}{IPMI and Shelf Manager}{section.2}
+\BOOKMARK [2][-]{subsection.2.4}{Cluster-on-Board}{section.2}
+\BOOKMARK [2][-]{subsection.2.5}{Interconnects}{section.2}
+\BOOKMARK [2][-]{subsection.2.6}{Reconfigurable Cluster Element}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.6.1}{Software Services}{subsection.2.6}
+\BOOKMARK [3][-]{subsubsection.2.6.2}{Mezzanine Board}{subsection.2.6}
 \BOOKMARK [1][-]{section.3}{Implementation of RCE-based DAQ for LBNE}{}
-\BOOKMARK [2][-]{subsection.3.1}{Full LBNE}{section.3}
-\BOOKMARK [2][-]{subsection.3.2}{Phase 2 of 35t Prototype}{section.3}
-\BOOKMARK [2][-]{subsection.3.3}{Comparision of RCE-based vs DCM-based Backend DAQ Systems}{section.3}
-\BOOKMARK [2][-]{subsection.3.4}{High-speed Data Links From Cold FPGA to Backend DAQ}{section.3}
+\BOOKMARK [2][-]{subsection.3.1}{DAQ Layout for 35t Prototype}{section.3}
+\BOOKMARK [2][-]{subsection.3.2}{Comparision of RCE-based vs DCM-based Backend DAQ Systems}{section.3}
+\BOOKMARK [2][-]{subsection.3.3}{High-speed Data Links From Cold FPGA to Backend DAQ}{section.3}
+\BOOKMARK [2][-]{subsection.3.4}{DAQ Test-stand}{section.3}
 \BOOKMARK [1][-]{section.4}{Schedule and Budget}{}
 \BOOKMARK [1][-]{section.5}{Conclusions}{}
 \BOOKMARK [1][-]{section*.1}{References}{}

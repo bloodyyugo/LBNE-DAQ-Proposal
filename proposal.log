@@ -1,4 +1,4 @@
-This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2012.7.24)  28 JAN 2013 12:10
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2012.7.24)  7 FEB 2013 09:35
 entering extended mode
 **proposal.tex
 (./proposal.tex
@@ -373,35 +373,179 @@ LaTeX Info: Redefining \pageref on input line 64.
 \openout3 = `proposal.out'.
 
  (./author_list.tex) [1{/sw64/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
-] (./introduction.tex) (./atca-rce-cob.tex)
+] (./introduction.tex
+
+Package natbib Warning: Citation `DAQ_REQ' on page 2 undefined on input line 6.
+
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 8.
+(/sw64/share/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 8.
+ [2]) (./atca-rce-cob.tex
+[3]
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ú in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ù in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ú in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ù in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ú in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ù in font cmr12!
+ [4]
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ù in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ú in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ù in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ò in font cmr12!
+ [5] [6] [7] [8]
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+ [9]
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ú in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ù in font cmr12!
+ [10]
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ò in font cmr12!
+ [11]
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ú in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ù in font cmr12!
+ [12]
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ò in font cmr12!
+ [13]
+Missing character: There is no Ô in font cmr12!
+Missing character: There is no ø in font cmr12!
+Missing character: There is no º in font cmr12!
+Missing character: There is no Ô in font cmr12!
+Missing character: There is no ø in font cmr12!
+Missing character: There is no º in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ú in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ù in font cmr12!
+ [14]
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no î in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ú in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ù in font cmr12!
+ [15])
 (./lbne-implementation.tex
-<LBNE-DAQ-BlockDiagram.pdf, id=24, 1027.84pt x 770.88pt>
+
+LaTeX Warning: Reference `bll' on page 16 undefined on input line 6.
+
+[16] <LBNE-DAQ-BlockDiagram.pdf, id=163, 1027.84pt x 770.88pt>
 File: LBNE-DAQ-BlockDiagram.pdf Graphic file (type pdf)
 
-<use LBNE-DAQ-BlockDiagram.pdf> [2] [3
-! pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) 
-has been already used, duplicate ignored
-<to be read again> 
-                   \endgroup \set@typeset@protect 
-l.50 ... Data Links From Cold FPGA to Backend DAQ}
-                                                   <./LBNE-DAQ-BlockDiagram.pdf
->]) (./schedule-budget.tex) (./conclusions.tex) (./bibl.tex
-
-LaTeX Warning: Reference `LastBibItem' on page 4 undefined on input line 1.
-
-
-Underfull \hbox (badness 3118) in paragraph at lines 3--5
-[]\OT1/cmr/m/n/10.95 A. Grillo \OT1/cmr/m/it/10.95 et al. \OT1/cmr/m/n/10.95 [H
-PS Col-lab-o-ra-tion], HPS Pro-posal to JLab PAC37 PR-11-006,
- []
-
-) [4
+<use LBNE-DAQ-BlockDiagram.pdf> [17
 ! pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \endgroup \set@typeset@protect 
-l.98 \end{document}
-                   ] (./proposal.aux)
+l.95 ... Data Links From Cold FPGA to Backend DAQ}
+                                                  
+! pdfTeX warning (ext4): destination with the same identifier (name{table.2}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.95 ... Data Links From Cold FPGA to Backend DAQ}
+                                                  ] [18
+! pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) 
+has been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.95 ... Data Links From Cold FPGA to Backend DAQ}
+                                                   <./LBNE-DAQ-BlockDiagram.pdf
+>]) (./schedule-budget.tex) (./conclusions.tex) (./bibl.tex
+Underfull \hbox (badness 4144) in paragraph at lines 3--5
+[]\OT1/cmr/m/n/10.95 A. Grillo \OT1/cmr/m/it/10.95 et al. \OT1/cmr/m/n/10.95 [H
+PS Col-lab-o-ra-tion], HPS Pro-posal to JLab PAC37 PR-11-006,
+ []
+
+)
+
+Package natbib Warning: There were undefined citations.
+
+[19] (./proposal.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -411,19 +555,19 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
 
  ) 
 Here is how much of TeX's memory you used:
- 5405 strings out of 94500
- 70215 string characters out of 1175788
- 138285 words of memory out of 1500000
- 8462 multiletter control sequences out of 10000+50000
- 9905 words of font info for 35 fonts, out of 1200000 for 2000
+ 5471 strings out of 94500
+ 71081 string characters out of 1175788
+ 140502 words of memory out of 1500000
+ 8505 multiletter control sequences out of 10000+50000
+ 10212 words of font info for 36 fonts, out of 1200000 for 2000
  580 hyphenation exceptions out of 8191
- 27i,9n,29p,225b,321s stack positions out of 5000i,500n,6000p,200000b,5000s
+ 27i,9n,29p,1413b,321s stack positions out of 5000i,500n,6000p,200000b,5000s
 PDF statistics:
- 130 PDF objects out of 65536
- 22 named destinations out of 20000
- 22 words of extra memory for PDF output out of 65536
+ 253 PDF objects out of 65536
+ 42 named destinations out of 20000
+ 166 words of extra memory for PDF output out of 65536
 </sw64/share/texmf-dist/fonts/type1/bluesky/cm/cmsy10.pfb></sw64/share/texmf-
 dist/fonts/type1/bluesky/cm/cmr10.pfb></sw64/share/texmf-dist/fonts/type1/blues
 ky/cm/cmti10.pfb></sw64/share/texmf-dist/fonts/type1/bluesky/cm/cmr12.pfb></sw6
 4/share/texmf-dist/fonts/type1/bluesky/cm/cmbx12.pfb>
-Output written on proposal.pdf (4 pages, 254994 bytes).
+Output written on proposal.pdf (19 pages, 313164 bytes).
