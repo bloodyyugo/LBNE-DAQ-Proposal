@@ -5,6 +5,6 @@ if(@ARGV > 0  ){
 if(@ARGV == 0  ){
 	$m =-m'foobar';
 }
-`git add .`;
-`git commit $m`;
+#`git add .`;
+#`git commit $m`;
 `git push origin`;
