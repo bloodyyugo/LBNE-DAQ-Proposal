@@ -179,4 +179,15 @@ On each of its two I2C channels the board contains, in addition to the element's
 \end{itemize}
 
 The COB's IPMC uses that information to “plug and play” with its bays, including their activation as well as in the monitoring of their health and safety.
-To illustrate both mezzanine concept and its relationship to the RCE, a photograph of the prototype (single element) GEN-II RCE, mounted in a mezzanine board is shown in Figure 13:
+To illustrate both mezzanine concept and its relationship to the RCE, a photograph of the prototype (single element) GEN-II RCE, mounted in a mezzanine board is shown in Figure \ref{fig:mezz}.
+
+\begin{figure}[tbh]
+\includegraphics[scale=0.8]{mezzanine.pdf}
+\caption{A single element RCE on a mezzanine board.}
+\label{fig:mezz}
+\end{figure} 
+
+
+\subsubsection{Pretty Good Protocol}
+
+The Pretty Good Protocol (PGP) is a VHDL module which facilitates the bi-directional transmission of frame based messages over a two-wire physical link.      
