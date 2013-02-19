@@ -205,4 +205,8 @@ Access to micro-SD based media using its bundled PPI. That media is formatted as
 
 \subsubsection{Pretty Good Protocol}
 \label{sec:PGP}
-The Pretty Good Protocol (PGP) is a VHDL module which facilitates the bi-directional transmission of frame based messages over a two-wire physical link.      
+The Pretty Good Protocol (PGP)\cite{bib:pgp} is a VHDL module which facilitates the bi-directional transmission of frame based messages over a two-wire physical link.  PGP is openly and freely available and can be deployed on any 8B/10B SerDes link, be it copper or optical, with low overhead (96\% efficient after 8B/10B conversion).   The protocol allows for unlimited frame size based on 512byte cells; large frames are broken down into these cells for more efficient transport.  
+
+Each physical PGP link (lane) contains 4 virtual channels, each with a separate firmware interface.  In addition, each virtual channel on a lane can be either an upstream or downstream link (even at differing line rates).  Lanes can also be "bonded" together for a wider data path; for instance four 3.125 Gbps lanes can be bonded to create what (functionally and transparently) is a single 12.5 Gbps lane.   
+
+Many tools exist for implementing and handling PGP data for the RCE-based system and it  would be beneficial, although not strictly necessary, to use this protocol if the RCE-based DAQ is implemented.  

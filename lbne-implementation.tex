@@ -79,14 +79,17 @@ In total, even if multiple wires/FEB are read out, the 35t DAQ will easily fit i
 %================
 \begin{table}[tbh]
 \begin{center}
-\begin{tabular}{|l|c|c|}   
+\begin{tabular}{|l|c|c|c|}   
 \hline \hline 
-    & 35t  & Full LBNE \\      
+    											&    per-FEB               &       35t   Total   & Full LBNE  Total \\      
 \hline
-   Total Channels        & XXXX&XXXX \\ 
+   Full Readout 2MHz  			  & 3.05 Gbps & 54.9 Gbps  &  7320 Gbps \\ 
+   Zero-suppressed cosmics  & 15~-~?? Mbps& 270~-~?? Mbps  &  36~-~??  Gbps\\ 
+  Radioactivity  ($^{39}$Ar)    & 0.6 Mbps&  11 Mbps  &   1.4 Gbps \\
+   Electronics noise& 0.01 Mbps & 0.18 Mbps&  24 Mbps\\ 
 \hline \hline
 \end{tabular}
-\caption[]{Data rates etc ...   (as of Jan. 2013 design).}
+\caption[]{Estimated data rates per 128-channel FEB and for the entire 35t and full LBNE TPCs  (mostly from J. Urheim).}
 \label{tab:datarates} 
 \end{center}
 \end{table}
@@ -94,7 +97,11 @@ In total, even if multiple wires/FEB are read out, the 35t DAQ will easily fit i
 
 \subsection{Full LBNE}
 
+The basic DAQ structure for the full LBNE detector (2 $\times$ 5kT) is identical to the 35t prototype, the only difference being more channels (see Table \ref{tab:daqsumm}).  We've again assumed that we would bring out wire/FEB, although more multiplexing has been proposed in the past.  This configuration would require 50 RTM+COB pairs, which could fit in four ATCA crates; these crates could be arranged in convenient physical locations.  
 
+The number of flange boards needed mainly depends on how many access points there are between the cryostat and the outside;  we've assumed 50 boards accepting 48-channels each (and the outputs from each flange board filling a single RTM).  This could be more or less depending on the physical layout of the cryostat.  
+
+We have not included the photon system in this picture, as there is not sufficient detail about its layout at this point. 
 
 \subsection{Comparision of RCE-based vs DCM-based Backend DAQ Systems}
 
