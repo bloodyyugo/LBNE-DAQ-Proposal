@@ -51,7 +51,7 @@ The electrical signals will be brought out of the cryostat and converted to opti
    Total Channels        & $\sim$2.3k &$\sim$307k \\ 
 	Number of APAs     &  4 (?)     &    120        \\ 
    Number of FEBs       & 18 & 2400 \\ 
-   Transition Boards    & 2   & 50 (assume 4 SNAP-12/board) \\ 
+   Flange Boards    & 2   & 50 (assume 4 SNAP-12/board) \\ 
    RTM+COB Boards    & 1 + 1 &  50  \\
    ATCA Crates            & 1   &  4 (14-slot)   \\ 
 \hline \hline
@@ -71,7 +71,7 @@ The electrical signals will be brought out of the cryostat and converted to opti
 The 35t prototype TPC will have $\sim 100\times$ fewer channels than the full LBNE TPC and additionally will be externally triggered to observe cosmic rays.  The trigger rate is estimated to be  $<1$kHz.  If we run out a single wire/FEB from the cryostat, then the entire TPC can be read into a single COB.  
 Bringing more wires/FEB would require more COBs; the maximum number of input channels/RTM is 48.  For 8 wires/FEB, 4 COBs are likely required, since the trigger and timing signals will take up one input to the RTM each.  
 
-From the DAQ perspective, the photon system will consist of 32 digitized signals from the output of a CAEN digitizer (some of these may be sync or trigger signals).  We will likely want to convert these signals to PGP/fiber at an early stage to best utilize existing firmware.  The signals from the photon system will be read into a separate COB.  
+The photon system will consist of 32 digitized signals from the output of a CAEN digitizer (some of these may be sync or trigger signals).  From here, there are choices of what to do with the signals.  One option is to simply read them via the USB output into a PC and then forward that data (along with timing information) to the backend farm, bypassing the RCE-based system entirely.  Alternatively, the digitized signals could be routed to an RTM (possibly in a separate slot) and integrated with the TPC data at that stage.  This option would require some design work for the new RTM.  
 
 In total, even if multiple wires/FEB are read out, the 35t DAQ will easily fit into a single ATCA shelf.  
 

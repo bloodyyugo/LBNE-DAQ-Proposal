@@ -44,8 +44,8 @@ A photograph of a representative Front-Board, showing connectivity to an RTM (us
 
 \subsubsection{Rear Transition Module}
 \label{sec:rtm}
-The RTM (Rear-Transition-Module) is simply a PCB board, 8U wide x 70 mm deep which is used to extend a Front-Board and  house a board's external, I/O interface. The RTM shares the same hot-swap model as the Front-Board and specifies an identical pitch (1.2"). This allows the RTM to reuse the same panel, handle switches, and LEDs as its Front-board. The RTM connects to its Front-board through Zone 3. The form of that connection is application specific. However, if power for the RTM is necessary, it must be provided by the Front-board and must be brought through Zone 3. The ATCA specification is somewhat ambiguous with respect to the maximum power drawn by an RTM.   Zone 3 is populated with two connectors, one for power and one for signal. Power provided through the power connector is +12 VDC and that connector also contains pins for JTAG as well as I2C support. The I2C channel is expected to be used by the Front-Board for control of the RTM's hot-swap switch as well as its front panel LEDs.
-The signal connector provides up to 120 differential pairs. How those pairs are assigned between Front-Board and RTM is considered application specific. However, for LBNE's Front-Board, each one of its four DPM bays is assigned 1/4 of those pins or thirty (30) pairs (see Section \ref{sec:COB}).
+The RTM (Rear-Transition-Module) is simply a PCB board, 8U wide x 70 mm deep which is used to extend a front-board and  house a board's external, I/O interface. The RTM shares the same hot-swap model as the front-board and specifies an identical pitch (1.2"). This allows the RTM to reuse the same panel, handle switches, and LEDs as its front-board. The RTM connects to its front-board through Zone 3. The form of that connection is application specific. However, if power for the RTM is necessary, it must be provided by the front-board and must be brought through Zone 3. The ATCA specification is somewhat ambiguous with respect to the maximum power drawn by an RTM.   Zone 3 is populated with two connectors, one for power and one for signal. Power provided through the power connector is +12 VDC and that connector also contains pins for JTAG as well as I2C support. The I2C channel is expected to be used by the Front-Board for control of the RTM's hot-swap switch as well as its front panel LEDs.
+The signal connector provides up to 120 differential pairs. How those pairs are assigned between Front-Board and RTM is considered application specific. However, for LBNE's front-board, each one of its four DPM bays is assigned 1/4 of those pins or thirty (30) pairs (see Section \ref{sec:COB}).
 
 %\subsubsection{IPMI and Shelf Manager}
 %\label{sec:shelfManager}
@@ -127,18 +127,18 @@ The RCE is optimized for those three features. Physically, one element can be co
 The principal implementation feature of the RCE is in its reuse of System-On-Chip (SOC) technology, specifically, member's of Xilinx Virtex-5 FX family [55]1. As such, the RCE is neither processor, FPGA or DSP. Instead, it can be simultaneously any combination of the three. Within its fabric the FPGA contains both soft (user defined) and hardened (manufacture defined) silicon. That fabric is configured automatically on POR (Power-On-Reset) and is either downloaded directly from images previously stored on the FPGA's configuration (platform) flash, or indirectly through the RCE's JTAG interface. Note also that the platform flash is itself programmed through the RCE's JTAG interface. The RCE employs standard Xilinx tools and software to program the FPGA.
 Xilinx refers generically to its set of different, hardened silicon as resources. Among the more important of those resources are high speed serializers/deserializers, I/O adapters, DSP tiles, dual-port RAM and of course, its processor. The RCE allocates the processor as well as a modest number of additional resources and soft silicon for its CE (Cluster-Element). The CE has exclusive use of, but interfaces indirectly with its external DDR3 memory and micro-SD flash system. Memory is packaged as SO-DIMM and the micro-SD flash is removable, allowing its capacity to be determined by user application.
 
-The BSI‘s (Boot-Strap-Interface) principal function is to reset the CE. However, it also contains the initial configuration information necessary for the CE's bootstrap loader to boot its processor. The BSI is outside the CE so that its configuration may be retained over resets of the CE. External to the FPGA the BSI appears as a standard I2C device and receives its command and control through that interface. Note, for the COB, that device is controlled and monitored through its IPMC.
+%The BSI‘s (Boot-Strap-Interface) principal function is to reset the CE. However, it also contains the initial configuration information necessary for the CE's bootstrap loader to boot its processor. The BSI is outside the CE so that its configuration may be retained over resets of the CE. External to the FPGA the BSI appears as a standard I2C device and receives its command and control through that interface. Note, for the COB, that device is controlled and monitored through its IPMC.
 
-To provide isolation between system and user firmware and insure reproducible behavior, system firmware is partitioned [53] away from application specific logic. System firmware is defined as the CE, the BSI, JTAG support and both Network and SD Plug-Ins.
-The CE, which is both at the heart of the entire RCE and contains a significant fraction of the user's intellectual investment is described in Section \ref{sec:CE}. The remainder of the fabric, both hardened and soft silicon is reserved for application specific logic. That logic and its relationship with the CE is described below.
+%To provide isolation between system and user firmware and insure reproducible behavior, system firmware is partitioned [53] away from application specific logic. System firmware is defined as the CE, the BSI, JTAG support and both Network and SD Plug-Ins.
+%The CE, which is both at the heart of the entire RCE and contains a significant fraction of the user's intellectual investment is described in Section \ref{sec:CE}. The remainder of the fabric, both hardened and soft silicon is reserved for application specific logic. That logic and its relationship with the CE is described below.
 
-Although both user defined and implemented, any application specific logic, does of course require information exchange between it and its CE1. The interface model which allows such exchanges is the plug and socket. To follow that model, the user wraps their implementation specific logic with a thin veneer of system provided firmware. That wrapper is the plug and the combination of user logic and its plug is called a Protocol-Plug-In or PPI. When wrapped, that logic is now capable of being plugged into any of the eight predefined sockets on the CE. And once plugged in, both PPI and CE are now able to exchange information.
+%Although both user defined and implemented, any application specific logic, does of course require information exchange between it and its CE1. The interface model which allows such exchanges is the plug and socket. To follow that model, the user wraps their implementation specific logic with a thin veneer of system provided firmware. That wrapper is the plug and the combination of user logic and its plug is called a Protocol-Plug-In or PPI. When wrapped, that logic is now capable of being plugged into any of the eight predefined sockets on the CE. And once plugged in, both PPI and CE are now able to exchange information.
 
-Although bundled with its base system the RCE itself takes advantage of this model to “glue” its Ethernet and SD interfaces to the CE. Both are good examples of one class of PPIs which must interface outside their FPGA.  Such PPIs when plugged into their CE have as their closest analogy the classic I/O device and processor model. However, unlike that model the PPI model coupled with the resources offered by the FPGA fabric provides an essentially unlimited way to either customize or mold the CE to arbitrary devices and protocols. Of course, the user is not limited to using the fabric and its resources solely for I/O. One can define PPI whose sole purpose is to take advantage of the DSP tiles and combinatoric logic of the FPGA to process rather than transfer data. LBNE can use this functionality to its advantage in performing its feature extraction.
+%Although bundled with its base system the RCE itself takes advantage of this model to “glue” its Ethernet and SD interfaces to the CE. Both are good examples of one class of PPIs which must interface outside their FPGA.  Such PPIs when plugged into their CE have as their closest analogy the classic I/O device and processor model. However, unlike that model the PPI model coupled with the resources offered by the FPGA fabric provides an essentially unlimited way to either customize or mold the CE to arbitrary devices and protocols. Of course, the user is not limited to using the fabric and its resources solely for I/O. One can define PPI whose sole purpose is to take advantage of the DSP tiles and combinatoric logic of the FPGA to process rather than transfer data. LBNE can use this functionality to its advantage in performing its feature extraction.
 
 \subsection{The Cluster Element}
 \label{sec:CE}
-The essential function of the CE is as a platform which serves as an application specific nexus for the data both received and transmitted through the RCE's application specific PPIs. As such, the CE can be considered as both a hardware1 and software platform. As a hardware platform its principal blocks are illustrated in Figure \ref{fig:CEblock}. As a software platform its corresponding services are described in Section \ref{sec:Services}.
+The essential function of the CE is as a platform which serves as an application specific nexus for the data both received and transmitted through the RCE's application specific PPIs. As such, the CE can be considered as both a hardware and software platform. As a hardware platform its principal blocks are illustrated in Figure \ref{fig:CEblock}. As a software platform its corresponding services are described in Section \ref{sec:Services}.
 
 
 \begin{figure}[tbh]
@@ -149,10 +149,11 @@ The essential function of the CE is as a platform which serves as an application
 
 
 Its principal implementation blocks are its Memory Controller, Crossbar and Processor:
-The Memory Controller: Interfaces the RCE's external memory with the CE's Crossbar. It is a soft controller, derived from an existing Xilinx DDR2 design, but tailored for usage of low latency, DDR3 memory. The controller allows addressing of up to four (4) Gbytes of memory. It is clocked at 320 MHZ, has separate, internal, 64-bit, read and write datapaths providing roughly 5 Gbytes/second of either read or write bandwidth.
 \begin{itemize}
-\item The Crossbar: The Crossbar interconnects memory controller, processor1, and up to eight (8) PPI sockets allowing for autonomous, concurrent transfers between all three types of entities and providing arbitration for when those transfers might collide. The crossbar is clocked at the same rate as its memory controller (320 MHZ) and contains internal, separate, 128-bit, read and write datapaths. Its core is hardened silicon [56], but suitable enhanced with purpose built firmware which glues the eight PPI sockets to that core.
-\item The Processor: A 32-bit, PowerPC-440, superscaler, single core, RISC processor with separate 32 Kbyte data and instruction caches [56]. It is clocked at 475 MHZ. In addition to the three busses connected to the crossbar, the processor contains another, separate, independent, 128-bit wide bus called its APU bus [56]. One side is connected to the processor and its other side is an interface to the FPGA‘s fabric. This bus is unique in that it interacts directly with the processor's registers and data cache, bypassing its memory completely. Essentially, it allows the user to extend the processor's instruction set with application specific logic implemented in its fabric. Taking advantage of this feature, the CE uses the APU to control and manage its PPI sockets through a set of instructions which transfer data into and out of a socket directly from either registers or cache. This provides a very effective, low latency, performanent mechanism to transfer small amounts of data between processor and PPI. A similar mechanism is used for large data transfers, where data, rather than passed to and from the socket by value, are now passed to and from by reference. The socket autonomously takes care of transferring the data pointed to by that reference either to or from the PPI. Arbitrary transactions which interleave data by both value and reference are supported.
+\item The Memory Controller: Interfaces the RCE's external memory with the CE's Crossbar. It is a soft controller, derived from an existing Xilinx DDR2 design, but tailored for usage of low latency, DDR3 memory. The controller allows addressing of up to four (4) Gbytes of memory. It is clocked at 320 MHZ, has separate, internal, 64-bit, read and write datapaths providing roughly 5 Gbytes/second of either read or write bandwidth.
+\item The Crossbar: The Crossbar interconnects memory controller, processor, and up to eight (8) PPI sockets allowing for autonomous, concurrent transfers between all three types of entities and providing arbitration for when those transfers might collide. The crossbar is clocked at the same rate as its memory controller (320 MHZ) and contains internal, separate, 128-bit, read and write datapaths. Its core is hardened silicon [56], but suitable enhanced with purpose built firmware which glues the eight PPI sockets to that core.
+\item The Processor: A 32-bit, PowerPC-440, superscaler, single core, RISC processor with separate 32 Kbyte data and instruction caches [56]. It is clocked at 475 MHZ. 
+%In addition to the three busses connected to the crossbar, the processor contains another, separate, independent, 128-bit wide bus called its APU bus [56]. One side is connected to the processor and its other side is an interface to the FPGA‘s fabric. This bus is unique in that it interacts directly with the processor's registers and data cache, bypassing its memory completely. Essentially, it allows the user to extend the processor's instruction set with application specific logic implemented in its fabric. Taking advantage of this feature, the CE uses the APU to control and manage its PPI sockets through a set of instructions which transfer data into and out of a socket directly from either registers or cache. This provides a very effective, low latency, performanent mechanism to transfer small amounts of data between processor and PPI. A similar mechanism is used for large data transfers, where data, rather than passed to and from the socket by value, are now passed to and from by reference. The socket autonomously takes care of transferring the data pointed to by that reference either to or from the PPI. Arbitrary transactions which interleave data by both value and reference are supported.
 \end{itemize}
 
 \subsubsection{Software Services}
@@ -171,35 +172,35 @@ Access to micro-SD based media using its bundled PPI. That media is formatted as
 \item Diagnostics: Built-in self-tests as well as diagnostics. These are included on the CE as an alternate boot image providing the ability to “rescue” or repair inadvertent burns of the micro-SD media.  Development employs the GNU cross-development environment [34].
 \end{itemize}
 
-\subsubsection{Mezzanine Board}
-\label{sec:Mezzanine}
-The mezzanine board is one physical implementation of the abstract RCE described above in Section \ref{sec:RCE}. It is a PCB board (100 mm x 80 mm) which hosts either one or two elements of RCE. A mezzanine board plugs into any one of the five bays contained on a COB.
-Power (+6 VDC) to this board is applied using two separate, but identical connectors. One connector is assigned to each element of the board. Those connectors provide, in addition to power, a presence sense pin as well as an enable pin for that power. The board's two, internal PDS (Power-Distribution-Systems) takes that input voltage, divides it down and distributes the necessary, well regulated voltages to each element. Each PDS can source 25 Watts.
+%\subsubsection{Mezzanine Board}
+%label{sec:Mezzanine}
+%The mezzanine board is one physical implementation of the abstract RCE described above in Section \ref{sec:RCE}. It is a PCB board (100 mm x 80 mm) which hosts either one or two elements of RCE. A mezzanine board plugs into any one of the five bays contained on a COB.
+%Power (+6 VDC) to this board is applied using two separate, but identical connectors. One connector is assigned to each element of the board. Those connectors provide, in addition to power, a presence sense pin as well as an enable pin for that power. The board's two, internal PDS (Power-Distribution-Systems) takes that input voltage, divides it down and distributes the necessary, well regulated voltages to each element. Each PDS can source 25 Watts.
 
-A high-speed, high density, differential connector carries signals between the COB and the elements of the mezzanine board. Those signals include:
-\begin{itemize}
-\item  To and from RTM (thirty pairs).
-\item To and from the Fabric interconnect (sixteen pairs).
-\item To and from the Base interconnects (eight pairs).
-\item JTAG.
-\item To and from the IPMC (I2C); one per element.
-\end{itemize}
-On each of its two I2C channels the board contains, in addition to the element's BSI  various I2C devices which provide the following information:
-\begin{itemize}
-\item PDS status.
-\item Board and die temperatures.
-\item Element serial number (64 bit).
-\item Persistent, configuration information (MAC addresses, element wiring, etc.)
-\end{itemize}
+%A high-speed, high density, differential connector carries signals between the COB and the elements of the mezzanine board. Those signals include:
+%\begin{itemize}
+%\item  To and from RTM (thirty pairs).
+%\item To and from the Fabric interconnect (sixteen pairs).
+%\item To and from the Base interconnects (eight pairs).
+%\item JTAG.
+%\item To and from the IPMC (I2C); one per element.
+%\end{itemize}
+%On each of its two I2C channels the board contains, in addition to the element's BSI  various I2C devices which provide %the following information:
+%\begin{itemize}
+%\item PDS status.
+%\item Board and die temperatures.
+%\item Element serial number (64 bit).
+%\item Persistent, configuration information (MAC addresses, element wiring, etc.)
+%\end{itemize}
 
-The COB's IPMC uses that information to “plug and play” with its bays, including their activation as well as in the monitoring of their health and safety.
-To illustrate both mezzanine concept and its relationship to the RCE, a photograph of the prototype (single element) GEN-II RCE, mounted in a mezzanine board is shown in Figure \ref{fig:mezz}.
+%The COB's IPMC uses that information to “plug and play” with its bays, including their activation as well as in the monitoring of their health and safety.
+%To illustrate both mezzanine concept and its relationship to the RCE, a photograph of the prototype (single element) GEN-II RCE, mounted in a mezzanine board is shown in Figure \ref{fig:mezz}.
 
-\begin{figure}[tbh]
-\includegraphics[scale=0.8]{mezzanine.pdf}
-\caption{A single element RCE on a mezzanine board.}
-\label{fig:mezz}
-\end{figure} 
+%\begin{figure}[tbh]
+%\includegraphics[scale=0.8]{mezzanine.pdf}
+%\caption{A single element RCE on a mezzanine board.}
+%\label{fig:mezz}
+%\end{figure} 
 
 
 \subsubsection{Pretty Good Protocol}
