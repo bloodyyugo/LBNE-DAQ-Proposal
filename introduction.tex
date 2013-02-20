@@ -5,6 +5,7 @@ Front End Boards (FEB), which are mounted on the Anode Plane Arrays (APA) inside
 the cryostat, to build events from the different parts
 of the detector and to pass these events on to long term storage.
 The Level 3 requirements for this system include\cite{DAQ_REQ}:
+
 \begin{itemize}
 \item{LArFD-L3-DAQ-3: The DAQ shall be capable of receiving raw data from a freely running readout from all detector systems.}
 \item{LArFD-L3-DAQ-7: The DAQ shall be designed to collect data continuously}
@@ -12,12 +13,52 @@ The Level 3 requirements for this system include\cite{DAQ_REQ}:
 \end{itemize}
 The DAQ-7 requirement is relevant mainly to non-beam physics. 
 As such, it was left out of the requirements at the time of CD-1, which 
-assumed a surface-located Far Detector (FD). 
+assumed a surface-located Far Detector (FD) with 3 MWE overburden. 
 Nonetheless, continuous readout remains a valuable goal that would be desirable to have 
 in the final LBNE DAQ system.
 
+Table \ref{tab:rates}, which is taken from Jon Urheim's CD-1 presentation
+\cite{DAQ_CD1}
+lists
+the rates expected in a single Anode Plane Array (APA) for a surface-located
+FD.
+Assuming that a zero-suppression
+algorithm is running in the cold electronics,
+the rate is dominated by cosmic ray muons.
+Note, however, that common-mode noise,
+which may be appreciable,
+is not accounted for in this table.
 
-The key electonics module that needs to be provided for the back-end DAQ is 
+\begin{table}[h]
+\begin{tabular}{|p{1.5in}|c|c|c|}
+\hline
+Process&Rate (kHz/APA)& Samples (per APA) & Avg. Data Rate (Mbps)\\
+\hline
+Generic 1.4 ms interval (not zero-suppressed)&
+0.70&$7.3 \times 10^6$& 61,000\\
+\hline
+Cosmic Ray Muons & $\approx$ 1 & $2.5 \times 10^4$ & ~300 \\
+\hline
+Radioactivity: &&& \\
+U/Th ($\gamma$'s) & $\approx$ 1&40& 0.48\\
+$^{39}$Ar/$^{85}$Kr ($\beta$'s)&40&24&12\\
+\hline
+Electronics Noise (not common mode) & $\approx 1$ & 15 & 0.2\\
+\hline
+\end{tabular}
+\caption{\label{tab:rates} Expected rates for one APA in a surface-located
+FD}
+\end{table}
+
+The first (and only) opportunity to test many features of the LBNE APA 
+design will be the 35 Ton prototype (35t) to be constructed at FNAL.
+The APA(s) of this device are likely to be somewhat smaller than 
+those of the full LBNE FD and there will be very little overburden.
+The rates listed above are thus only a rough estimate of those to be
+expected in the 35t.
+Nonetheless, we adopt them for the following design studies.
+
+The key electronics module that needs to be provided for the back-end DAQ is 
 one that is capable of reading the data streams from each of the
 APA's and concentrating the data down to a smaller number of high-bandwidth 
 data streams that are then passed to an event-building network.
@@ -37,8 +78,9 @@ each of them to benefit from the latest networking hardware, at a significant
 reduction in development costs. 
 This ``DAQ toolkit'' uses the modern Advanced Telecommunications Architecture 
 (ATCA)for its physical structure. 
-The key element of the system is the Reconfigurable Cluster Element (RCE), which is
-based on a Virtex 5 ``System on a Chip''.
+The key element of the system is the Reconfigurable Cluster Element (RCE).
+The RCE is based on a Virtex  ``System on a Chip'', which could be 
+either a Virtex 5 chip (RCE Gen 2) or a Xynq chip (RCE Gen 3).
 A single board combining several of these RCE's can handle very high bandwidths measured
 in the 100's of Gigabits/second. 
 This system has been adopted in several HEP experiments already, and will likely 
