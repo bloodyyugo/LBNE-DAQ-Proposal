@@ -77,10 +77,15 @@ The development costs are then leveraged over multiple experiments, allowing
 each of them to benefit from the latest networking hardware, at a significant 
 reduction in development costs. 
 This ``DAQ toolkit'' uses the modern Advanced Telecommunications Architecture 
-(ATCA)for its physical structure. 
-The key element of the system is the Reconfigurable Cluster Element (RCE).
+(ATCA)for its physical structure.
+The toolkit is not an ``off the shelf'', DAQ system.
+Rather, it provides tools that can be used by individual experiments to 
+build modern DAQ systems with significantly lower development costs than
+woudl be needed to build fully custom systems.
+
+The key element of the toolkit is the Reconfigurable Cluster Element (RCE).
 The RCE is based on a Virtex  ``System on a Chip'', which could be 
-either a Virtex 5 chip (RCE Gen 2) or a Xynq chip (RCE Gen 3).
+either a Virtex 5 chip (RCE Gen 2) or aZynq chip (RCE Gen 3).
 A single board combining several of these RCE's can handle very high bandwidths measured
 in the 100's of Gigabits/second. 
 This system has been adopted in several HEP experiments already, and will likely 
