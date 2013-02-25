@@ -3,11 +3,12 @@
 
 The elements of the DAQ-toolkit described in the previous section can be easily applied to the LAr TPC for LBNE.  The block diagram of a possible configuration is shown in Fig. \ref{fig:blockDiag}.  We define the "front-end DAQ" as everything between the (cold) FPGA and the ATCA shelf; from the ATCA-shelf onward is referred to as the "back-end DAQ".    The primary goal of this document is to propose a solution for the back-end DAQ and so, for this purpose, we will assume that the signals come into the back-end DAQ from the output of the front-end board (FEB) FPGA, each of which collects the output of  $8\times 16 = 128$ TPC wires.  
 
-The basic structure of the back-end RCE-based DAQ is fairly straightforward.  The data from the ADCs is encoded (possibly using the PGP protocol; see Appendix \ref{bll}) in the FEB FPGA and driven out of the cryostat to a "flange board" which converts the electrical signal to an optical signal.  The flange board is an optional step, but one which allows the back-end DAQ crates to be conveniently placed without worrying about signal degradation.   The optical signal is then sent to the RTM which interfaces with the COB.  RTM designs with up to 48-channel fiber optic inputs exist and are currently in use by LCLS and for LSST development (???this is made up???).  The RTM also incorporates the output to the DAQ PC farm via 8 x 10 Gbps ethernet.  The RCEs on the COB can be used to perform event building or even some level of pattern recognition. 
+The basic structure of the back-end RCE-based DAQ is fairly straightforward.  The data from the ADCs is encoded (possibly using the PGP protocol; see Appendix \ref{bll}) in the FEB FPGA and driven out of the cryostat to a "flange board" which converts the electrical signal to an optical signal.  The flange board is an optional step, but one which allows the back-end DAQ crates to be conveniently placed without worrying about signal degradation.   The optical signal is then sent to the RTM which interfaces with the COB.  The RTM also incorporates the output to the DAQ PC farm via 8 x 10 Gbps ethernet.  The RCEs on the COB can be used to perform event building or even some level of pattern recognition. 
 
-One of the DPMs on each COB will function as the trigger and timing interface.  The  external timing and (for the 35t) trigger signals will be received via optical fiber to the RTM and will be distributed to the other DPMs and out (through the RTM) to all of the FEBs.  A scheme exists for distributing the timing and trigger over the PGP link.  
+One of the RCEs on each COB will function as the timing interface.  The  external timing  signals will be received via optical fiber to the RTM and will be distributed to the other DPMs and out (through the RTM) to all of the FEBs.  A scheme exists for distributing the timing over the PGP link.  
 
-Below, we discuss some specific issues with the implementation in the 35t prototype and full LBNE, as well as some ideas for the front-end DAQ.   
+
+%Below, we discuss some specific issues with the implementation in the 35t prototype and full LBNE, as well as some ideas for the front-end DAQ.   
 
 
 %This list is just for me to organize my thoughts.
@@ -31,8 +32,9 @@ Below, we discuss some specific issues with the implementation in the 35t protot
 
 \subsection{Flange Board}
 
-The electrical signals will be brought out of the cryostat and converted to optical signals just outside the flange on custom built flange boards.   Each flange board houses optical drivers to handle the electrical-optical conversion and to transmit the optical signals to the  back-end DAQ.  The copper side of the flange board will depend on the choices made by the cold electronics group; the fiber side use SNAP-12 connectors.  The size and number of flange boards depends on the number of connections needed and mechanical specifications.  A block diagram of a two connector board is shown in Fig. \ref{fig:flange}.  Table \ref{tab:daqsumm} assumes a single pair of receiver-transmitter pairs per flange board.  
+The electrical signals will be brought out of the cryostat and converted to optical signals just outside the flange on custom built flange boards.   Each flange board houses optical drivers to handle the electrical-optical conversion and to transmit the optical signals to the  back-end DAQ.  The copper side of the flange board will depend on the choices made by the cold electronics group; the fiber side use SNAP-12 transceivers.  The size and number of flange boards depends on the number of connections needed and mechanical specifications.  A block diagram of a two connector board is shown in Fig. \ref{fig:flange}.  Table \ref{tab:daqsumm} assumes four receiver-transmitter pairs per flange board.  
 
+The plan for the 35t prototype is to implement a warm FPGA board that will implement the zero suppression as part of the front end DAQ.  We can implement PGP and place the transceivers on this board and forgo the flange board.  A board with this functionality will be needed for the 10kt, so we've included it as part of the back-end for this proposal.  
 
 
 \begin{figure}[htb]
@@ -41,18 +43,59 @@ The electrical signals will be brought out of the cryostat and converted to opti
 \label{fig:flange}
 \end{figure} 
 
+\subsection{RTM Designs}
+
+RTM designs with up to 48-channel fiber optic inputs (using 4 SNAP-12 transceivers) exist and are currently in use by LCLS and for LSST development. This matches well with LBNE's needs and will require no additional development so our proposal is to use this design.  
+
+The maximum bandwidth/channel into the RTM (and RCEs) is 3.125 Gbps.  For data that is zero-suppressed prior to going into the back-end, this is well above what is needed to read out a FEB.    The bandwidth for full, non-zero suppressed readout of a FEB (which may be advantageous in the prototype) is 3.05 Gbps before accounting for overhead;  this is likely to be $\sim$4 Gbps after 8B/10B conversion and PGP implementation.  Thus, if we prefer to keep the option of reading in all data and performing zero-suppression in the RCEs we'd need to have two data outputs/FEB.   
+
+It is simple (but more time consuming and costly) to design a new RTM and, depending on the final configuration of the front-end electronics, this may be desirable.  For instance, for the photon detector, instead of going through an external digitizer, we could put ADCs directly on the RTM.  This application has been done for the HPS test run and worked well.  
+
+
+\subsection{COB Configurations}
+
+The COB can be populated with any number between 1 and 8 RCEs, which each RCE servicing 6 input channels.  The RCEs reside on a mezzanine board which can hold up to 2 RCEs/board with up to four mezzanine boards/COB.  The mezzanine boards are "portable"; one may take a mezzanine board out of one COB and put it in another (for instance to expand the channel count of an existing COB).  
+
+For the 35t prototype, assuming 18 channels of TPC data plus at least one other input for timing, we need two fully populated mezzanine boards (4 RCEs).  Alternatively, we could pull 2 ouputs/FEB and spread the bandwidth and processing over 36 RTM inputs and 7 RCEs (one for timing). 
+
+%With this configuration, we would have the bandwidth to handle all of the 35t non-zero suppressed data (roughly 4.0Gbps/2 channels, including overhead).  
+
+Each RCE on the COB has a large amount of data processing power (both FPGA and processor based) and the COB itself acts as large bandwidth ethernet connecting all RCEs.  In addition, each RTM/COB connects to the back-end farm via 8x10Gbps TCP/IP ethernet links.  This gives us many options for data flow to the back-end CPU farm depending on how much or little data processing we want the DAQ to do.  Some of the options are:
+\begin{itemize}
+\item use the COB simple as a pass-through; send all data from the front-end to the farm without any modification
+\item organize the data into (for example) larger time slices and then send these packets on for further processing and triggering
+\item bring the trigger (either beam or cosmic) into the COB and use that to only send out triggered events
+\item if reading in non-zero suppressed data, perform zero-suppression (in firmware) and build time slices
+\end{itemize}
+For this proposal, we do not define a definite role for the RCEs in data processing.  We simply note that using the RCEs can provide some flexibility in designing both the upstream and downstream sides of the data acquisition.  
+
+
+\subsection{Timing Distribution System}
+
+The timing distribution system for the NOvA detector\cite{bib:novaTiming} meets the needs of LBNE very well.  The system includes a master timing unit (MTU) with GPS and slave timing units (STU) which can be distributed to the crates about the detector and are self-correcting for propagation delays.  We propose  to use this system as well, both for the full 10kT detector and for the 35t prototype.  For the prototype, this sophisticated system is not strictly necessary; for the RCE-based DAQ there will likely only be one board and the GPS timing isn't required since there is no beam.  However, since there is no hardware (there will be some firmware) to develop and we will need this system for full LBNE we may as include it. 
+
+The NOvA timing system has a fiber optic output which will be used to carry the clock and  be read into one RTM in the crate and then distributed by the COB to all RCEs in the cluster (or possibly 1-per-RTM).  The clock will then be distributed  back through the RTM to the FEBs.   The SFP transceiver on the RMT for the timing signal will be either installed on a RTM daughter board or be included in a custom (though almost trivially different) RTM design.  
+
+\subsection{Photon Detector Readout}
+
+
+The photon system for the 35t prototype will consist of 32 digitized signals from the output of a CAEN digitizer (some of these may be sync or trigger signals).  From here, there are choices of what to do with the signals.  One option is to simply read them via the USB output into a PC and then forward that data (along with timing information) to the back-end farm, bypassing the RCE-based system entirely.  Alternatively, the digitized signals could be routed to an RTM (possibly in a separate slot) and integrated with the TPC data at that stage.  This option would require some design work for the new RTM.  For this proposal, we've assumed that the photon system bypasses the RCE-based DAQ an goes directly to the farm.  
+
+For full LBNE, we have not included the photon system in this picture as there is not sufficient detail about its layout at this point.   One option, as discussed above, is to include the digitization directly on the RTM.  
+
 %================
 \begin{table}[tbh]
 \begin{center}
 \begin{tabular}{|l|c|c|}   
 \hline \hline 
-    & 35t  & Full LBNE \\      
+    & 35t  & 10kt \\      
 \hline
    Total Channels        & $\sim$2.3k &$\sim$307k \\ 
-	Number of APAs     &  4 (?)     &    120        \\ 
+	Number of APAs     &  3     &    120        \\ 
    Number of FEBs       & 18 & 2400 \\ 
-   Flange Boards    & 2   & 50 (assume 4 SNAP-12/board) \\ 
-   RTM+COB Boards    & 1 + 1 &  50  \\
+   Flange Boards    & 0   & 50 \\ 
+   RTM+COB Boards    & 1  &  50  \\
+  RCEs                       & 3  &  400  \\
    ATCA Crates            & 1   &  4 (14-slot)   \\ 
 \hline \hline
 \end{tabular}
@@ -64,53 +107,61 @@ The electrical signals will be brought out of the cryostat and converted to opti
 
 
 
+\subsection{Summary DAQ Layout for 35t Prototype and Full LBNE}
+
+The number of boards/RCEs/crates etc needed for the 35t prototype and 10kt LBNE is listed in Table \ref{tab:daqsumm}.  
+
+35t Phase-II:  
+\begin{itemize}
+\item  \textbf{TPC RTM: }  4 pairs of SNAP-12 transceivers + SFP (timing)
+\item  \textbf{TPC COB:  }  2 mezzanine boards each with 2 RCEs (4/8 for full readout)
+\item  \textbf{Timing Distribution:  }    Single NOvA MTU/STU pair
+ \item  \textbf{Photon Detector:  }    digitizer to PC to back-end farm 
+\end{itemize}
 
 
-\subsection{DAQ Layout for 35t Prototype}
+Full LBNE:
+\begin{itemize}
+\item  \textbf{TPC RTM: }  4 pairs of SNAP-12 transceivers 
+\item  \textbf{TPC COB:  }  4 mezzanine boards each with 8 RCEs (i.e. fully populated)
+\item  \textbf{Timing Distribution:  }    Single NOvA MTU + 4 STU (one for each crate)
+ \item  \textbf{Photon Detector:  }    analog signals to RTM, which contains ADC
+\end{itemize}
+%The 35t prototype TPC will have $\sim 100\times$ fewer channels than the full LBNE TPC and additionally will be externally triggered to observe cosmic rays.  The trigger rate is estimated to be  $<1$kHz.  If we run out a single wire/FEB from the cryostat, then the entire TPC can be read into a single COB.  
+%Bringing more wires/FEB would require more COBs; the maximum number of input channels/RTM is 48.  For 8 wires/FEB, 4 COBs are likely required, since the trigger and timing signals will take up one input to the RTM each.  
 
-The 35t prototype TPC will have $\sim 100\times$ fewer channels than the full LBNE TPC and additionally will be externally triggered to observe cosmic rays.  The trigger rate is estimated to be  $<1$kHz.  If we run out a single wire/FEB from the cryostat, then the entire TPC can be read into a single COB.  
-Bringing more wires/FEB would require more COBs; the maximum number of input channels/RTM is 48.  For 8 wires/FEB, 4 COBs are likely required, since the trigger and timing signals will take up one input to the RTM each.  
-
-The photon system will consist of 32 digitized signals from the output of a CAEN digitizer (some of these may be sync or trigger signals).  From here, there are choices of what to do with the signals.  One option is to simply read them via the USB output into a PC and then forward that data (along with timing information) to the backend farm, bypassing the RCE-based system entirely.  Alternatively, the digitized signals could be routed to an RTM (possibly in a separate slot) and integrated with the TPC data at that stage.  This option would require some design work for the new RTM.  
-
-In total, even if multiple wires/FEB are read out, the 35t DAQ will easily fit into a single ATCA shelf.  
-
+%In total, even if multiple wires/FEB are read out, the 35t DAQ will easily fit into a single ATCA shelf. 
 
 %================
-\begin{table}[tbh]
-\begin{center}
-\begin{tabular}{|l|c|c|c|}   
-\hline \hline 
-    											&    per-FEB               &       35t   Total   & Full LBNE  Total \\      
-\hline
-   Full Readout 2MHz  			  & 3.05 Gbps & 54.9 Gbps  &  7320 Gbps \\ 
-   Zero-suppressed cosmics  & 15~-~?? Mbps& 270~-~?? Mbps  &  36~-~??  Gbps\\ 
-  Radioactivity  ($^{39}$Ar)    & 0.6 Mbps&  11 Mbps  &   1.4 Gbps \\
-   Electronics noise& 0.01 Mbps & 0.18 Mbps&  24 Mbps\\ 
-\hline \hline
-\end{tabular}
-\caption[]{Estimated data rates per 128-channel FEB and for the entire 35t and full LBNE TPCs  (mostly from J. Urheim).}
-\label{tab:datarates} 
-\end{center}
-\end{table}
+%\begin{table}[tbh]
+%\begin{center}
+%\begin{tabular}{|l|c|c|c|}   
+%\hline \hline 
+ %   											&    per-FEB               &       35t   Total   & Full LBNE  Total \\      
+%\hline
+%   Full Readout 2MHz  			  & 3.05 Gbps & 54.9 Gbps  &  7320 Gbps \\ 
+ %  Zero-suppressed cosmics  & 15~-~?? Mbps& 270~-~?? Mbps  &  36~-~??  Gbps\\ 
+  %Radioactivity  ($^{39}$Ar)    & 0.6 Mbps&  11 Mbps  &   1.4 Gbps \\
+ %  Electronics noise& 0.01 Mbps & 0.18 Mbps&  24 Mbps\\ 
+%\hline \hline
+%\end{tabular}
+%\caption[]{Estimated data rates per 128-channel FEB and for the entire 35t and full LBNE TPCs  (mostly from J. Urheim).}
+%\label{tab:datarates} 
+%\end{center}
+%\end{table}
 %=================
 
-\subsection{Full LBNE}
+%\subsection{Summary of DAQ Layout for 10kT LBNE}
 
-The basic DAQ structure for the full LBNE detector (2 $\times$ 5kT) is identical to the 35t prototype, the only difference being more channels (see Table \ref{tab:daqsumm}).  We've again assumed that we would bring out wire/FEB, although more multiplexing has been proposed in the past.  This configuration would require 50 RTM+COB pairs, which could fit in four ATCA crates; these crates could be arranged in convenient physical locations.  
 
-The number of flange boards needed mainly depends on how many access points there are between the cryostat and the outside;  we've assumed 50 boards accepting 48-channels each (and the outputs from each flange board filling a single RTM).  This could be more or less depending on the physical layout of the cryostat.  
-
-We have not included the photon system in this picture, as there is not sufficient detail about its layout at this point. 
-
-\subsection{Comparision of RCE-based vs DCM-based Backend DAQ Systems}
+\subsection{Comparision of RCE-based vs DCM-based back-end DAQ Systems}
 
 \input{dcm-comparison}
 
 
 
 
-\subsection{High-speed Data Links From Cold FPGA to Backend DAQ}
+%\subsection{High-speed Data Links From Cold FPGA to back-end DAQ}
 
-\input{high-speed}
+%...possibilities and our plans on this ...
 
