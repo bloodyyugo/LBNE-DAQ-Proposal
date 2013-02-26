@@ -7,7 +7,7 @@
 %ATCA usage by the NRC will be entirely compliant with the PICMG 3.0 specification. That specification is described in [6] with an introduction available from [5]. However, the remainder of this section is intended to provide sufficient background to gain a thorough understanding of the physical design description.
 
 In this section we give a brief introduction the DAQ toolkit.
-For a more detailed reference, see\cite{DAQ_ref}.
+For a more detailed reference, see\cite{DAQ_REF}.
 \subsection{Advanced Tele-Communication Architecture and the ATCA Shelf}
 \label{sec:ATCA}
 The DAQ Toolkit makes use of the Advanced Tele-Communication Architecture
@@ -28,7 +28,7 @@ carry the connections between slots.
 Three types of connections are made on the backplane: 
 power, control and differential data pairs. 
 Figure \ref{fig:frontShelf} shows front and back views of a
- COTS1 shelf purchased from ASIS [7]. 
+ COTS1 shelf purchased from ASIS. 
 
 \begin{figure}[tbh]
 \includegraphics[scale=0.6]{shelf-front.pdf}
@@ -229,10 +229,14 @@ Among the more important of those resources are high speed serializers/deseriali
  I/O adapters, DSP tiles, dual-port RAM and of course, its processor. 
 The RCE allocates the processor as well as a modest number of additional
  resources and soft silicon for its CE (Cluster-Element). 
-The CE has exclusive use of, but interfaces indirectly with its external
+The Cluster Element (CE) has exclusive use of, but interfaces indirectly with its external
 DDR3 memory and micro-SD flash system. 
 Memory is packaged as SO-DIMM and the micro-SD flash is removable, 
 allowing its capacity to be determined by user application.
+
+The core of the CE is a processor that in the Gen 3 RCE is an ARM processor running Linux. 
+This will greatly facilitate software development.
+
 
 %The BSI‘s (Boot-Strap-Interface) principal function is to reset the CE. However, it also contains the initial configuration information necessary for the CE's bootstrap loader to boot its processor. The BSI is outside the CE so that its configuration may be retained over resets of the CE. External to the FPGA the BSI appears as a standard I2C device and receives its command and control through that interface. Note, for the COB, that device is controlled and monitored through its IPMC.
 
@@ -243,48 +247,6 @@ allowing its capacity to be determined by user application.
 
 %Although bundled with its base system the RCE itself takes advantage of this model to “glue” its Ethernet and SD interfaces to the CE. Both are good examples of one class of PPIs which must interface outside their FPGA.  Such PPIs when plugged into their CE have as their closest analogy the classic I/O device and processor model. However, unlike that model the PPI model coupled with the resources offered by the FPGA fabric provides an essentially unlimited way to either customize or mold the CE to arbitrary devices and protocols. Of course, the user is not limited to using the fabric and its resources solely for I/O. One can define PPI whose sole purpose is to take advantage of the DSP tiles and combinatoric logic of the FPGA to process rather than transfer data. LBNE can use this functionality to its advantage in performing its feature extraction.
 
-\subsection{The Cluster Element}
-\label{sec:CE}
-The essential function of the CE is as a platform 
-which serves as an application specific nexus for the 
-data both received and transmitted through the RCE's application specific PPIs. 
-As such, the CE can be considered as both a hardware and software platform. 
-As a hardware platform its principal blocks are illustrated in 
-Figure \ref{fig:CEblock}. 
-As a software platform its corresponding services are described in Section \ref{sec:Services}.
-
-
-\begin{figure}[tbh]
-\includegraphics[scale=0.8]{ce-block.pdf}
-\caption{Block diagram of the CE.}
-\label{fig:CEblock}
-\end{figure} 
-
-
-Its principal implementation blocks are its Memory Controller, Crossbar and Processor:
-\begin{itemize}
-\item The Memory Controller: Interfaces the RCE's external 
-memory with the CE's Crossbar. 
-It is a soft controller, derived from an existing Xilinx DDR2 design, 
-but tailored for usage of low latency, DDR3 memory. 
-The controller allows addressing of up to four (4) Gbytes of memory. 
-It is clocked at 320 MHZ, has separate, internal, 
-64-bit, read and write datapaths providing roughly 
-5 Gbytes/second of either read or write bandwidth.
-\item The Crossbar: The Crossbar interconnects memory controller, 
-processor, and up to eight (8) PPI sockets allowing for autonomous, 
-concurrent transfers between all three types of entities and providing 
-arbitration for when those transfers might collide. 
-The crossbar is clocked at the same rate as its memory controller 
-(320 MHZ) and contains internal, separate, 128-bit, read and 
-write datapaths. 
-Its core is hardened silicon [56], but suitable 
-enhanced with purpose built firmware which glues the eight PPI sockets to that core.
-\item The Processor: A 32-bit, 
-PowerPC-440, superscaler, single core, RISC processor
- with separate 32 Kbyte data and instruction caches [56]. It is clocked at 475 MHZ. 
-%In addition to the three busses connected to the crossbar, the processor contains another, separate, independent, 128-bit wide bus called its APU bus [56]. One side is connected to the processor and its other side is an interface to the FPGA‘s fabric. This bus is unique in that it interacts directly with the processor's registers and data cache, bypassing its memory completely. Essentially, it allows the user to extend the processor's instruction set with application specific logic implemented in its fabric. Taking advantage of this feature, the CE uses the APU to control and manage its PPI sockets through a set of instructions which transfer data into and out of a socket directly from either registers or cache. This provides a very effective, low latency, performanent mechanism to transfer small amounts of data between processor and PPI. A similar mechanism is used for large data transfers, where data, rather than passed to and from the socket by value, are now passed to and from by reference. The socket autonomously takes care of transferring the data pointed to by that reference either to or from the PPI. Arbitrary transactions which interleave data by both value and reference are supported.
-\end{itemize}
 
 \subsubsection{Software Services}
 \label{sec:Services}
@@ -300,16 +262,39 @@ distribution mechanism.
 JIRA is used for a bug-tracking and reporting system. 
 Here is a summary of the software services bundled with the RCE:
 \begin{itemize}
-\item Bootstrapping: A generic bootstrap loader which allows, on reset, transfer to arbitrary code based on an externally controlled configuration parameter called its current vector (contained within the BSI). The code loaded and executed by the loader is assumed stored in the RCE's micro-SD device. The code pointed to by any specific vector is called a bootstrap. Bootstraps may be either standalone code or Version/Issue: 1.1/1
-code which loads and transfers control to other code (a secondary loader). The CE may contain and transfer control to an arbitrary number of different bootstraps. For LBNE, on reset, control is transferred to a secondary bootstrap which starts up RTEMS (see below).
-\item Operating/System: Although the CE is itself O/S agnostic, its system resident software is not and depends on functionality best provided by the services of an underlying O/S. In order to not compromise the RCE's innate performance a Real/Time (R/T) kernel offered the best compromise in satisfying that functionality. That kernel is RTEMS. RTEMS has a fully provisioned set of multi-tasking services as well as being both compact and efficient. It also maintains POSIX compliant interfaces, easing the burden of porting third-party software. However, perhaps most importantly, it is an Open-Source product with no licensing issues. RTEMS is described in additional detail in [31].
+\item Bootstrapping: A generic bootstrap loader which allows, on reset,
+transfer to arbitrary code based on an externally controlled configuration 
+parameter called its current vector (contained within the BSI). 
+The code loaded and executed by the loader is assumed stored in the RCE's 
+micro-SD device. The code pointed to by any specific vector is called a bootstrap. 
+Bootstraps may be either standalone code or
+code which loads and transfers control to other code (a secondary loader). 
+The CE may contain and transfer control to an arbitrary number of different 
+bootstraps. 
+For LBNE, on reset, control is transferred to a secondary bootstrap 
+which starts up Linux (see below).
+\item Operating/System: 
+Although the CE is itself O/S agnostic, its system resident software is 
+not and depends on functionality best provided by the services of an underlying O/S.
+In the Gen 3 RCE, this will be Linux.
 \item Persistency:
-Access to micro-SD based media using its bundled PPI. That media is formatted as FAT-16 and is used by the CE for storage of system code and configuration (see bootstrapping above). However, that media is available directly to applications for storage of their own application specific code and configuration.
-\item Networking: Includes a complete TCP/IP stack. The stack's MAC layer is satisfied by the RCE's bundled 10G-Ethernet PPI. The user interfaces to that stack are POSIX compliant.
+Access to micro-SD based media using its bundled PPI. 
+That media is formatted as FAT-16 and is used by the CE 
+for storage of system code and configuration (see bootstrapping above). 
+However, that media is available directly to applications 
+for storage of their own application specific code and configuration.
+\item Networking: Includes a complete TCP/IP stack. 
+The stack's MAC layer is satisfied by the RCE's bundled 10G-Ethernet PPI. 
+The user interfaces to that stack are POSIX compliant.
 \item Linking: The same dynamic linker used to bridge system and user code.
 \item PPI support: Interrupt and reset support for an application's PPI.
-\item Debugging: Support for both local and remote debugging. Local debugging (SMD) interfaces to JTAG through standard Xilinx tools. Remote, network based, debugging uses the GNU interface.
-\item Diagnostics: Built-in self-tests as well as diagnostics. These are included on the CE as an alternate boot image providing the ability to “rescue” or repair inadvertent burns of the micro-SD media.  Development employs the GNU cross-development environment [34].
+\item Debugging: Support for both local and remote debugging. 
+Local debugging (SMD) interfaces to JTAG through standard Xilinx tools. 
+Remote, network based, debugging uses the GNU interface.
+\item Diagnostics: Built-in self-tests as well as diagnostics. 
+These are included on the CE as an alternate boot image providing the 
+ability to rescure or repair inadvertent burns of the micro-SD media.  
+Development employs the GNU cross-development environment.
 \end{itemize}
 
 %\subsubsection{Mezzanine Board}
@@ -343,10 +328,13 @@ Access to micro-SD based media using its bundled PPI. That media is formatted as
 %\end{figure} 
 
 
-\subsubsection{Pretty Good Protocol}
-\label{sec:PGP}
-The Pretty Good Protocol (PGP)\cite{bib:pgp} is a VHDL module which facilitates the bi-directional transmission of frame based messages over a two-wire physical link.  PGP is openly and freely available and can be deployed on any 8B/10B SerDes link, be it copper or optical, with low overhead (96\% efficient after 8B/10B conversion).   The protocol allows for unlimited frame size based on 512byte cells; large frames are broken down into these cells for more efficient transport.  
+%\subsubsection{Pretty Good Protocol}
+%\label{sec:PGP}
+%The Pretty Good Protocol (PGP)\cite{bib:pgp} is a 
+%VHDL module which facilitates the bi-directional transmission 
+%of frame based messages over a two-wire physical link.  
+%PGP is openly and freely available and can be deployed on any 8B/10B SerDes link, be it copper or optical, with low overhead (96\% efficient after 8B/10B conversion).   The protocol allows for unlimited frame size based on 512byte cells; large frames are broken down into these cells for more efficient transport.  
 
-Each physical PGP link (lane) contains 4 virtual channels, each with a separate firmware interface.  In addition, each virtual channel on a lane can be either an upstream or downstream link (even at differing line rates).  Lanes can also be "bonded" together for a wider data path; for instance four 3.125 Gbps lanes can be bonded to create what (functionally and transparently) is a single 12.5 Gbps lane.   
+%Each physical PGP link (lane) contains 4 virtual channels, each with a separate firmware interface.  In addition, each virtual channel on a lane can be either an upstream or downstream link (even at differing line rates).  Lanes can also be "bonded" together for a wider data path; for instance four 3.125 Gbps lanes can be bonded to create what (functionally and transparently) is a single 12.5 Gbps lane.   
 
-Many tools exist for implementing and handling PGP data for the RCE-based system and it  would be beneficial, although not strictly necessary, to use this protocol if the RCE-based DAQ is implemented.  
+%Many tools exist for implementing and handling PGP data for the RCE-based system and it  would be beneficial, although not strictly necessary, to use this protocol if the RCE-based DAQ is implemented.  

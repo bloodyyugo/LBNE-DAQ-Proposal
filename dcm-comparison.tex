@@ -5,4 +5,11 @@ Each of these modules takes 64 input data data streams of 20 Mbps and
 combine them into a single stream of 1 Gbps. 
 The total throughput of a DCM module is limited to 60 Mbytes/second.
 A single DCM module is thus able to handle enough data to readout the
-entire 35 ton prototype, although without a large amount of headroom.
+entire 35 ton prototype at the expected rate of 300 Mbit/second/APA,
+although without a large amount of headroom.
+The main advantage of an RCE-based system is a vast improvement
+in the available bandwidth, which adds signficant flexibility in 
+the handling of the raw datastream.
+For example, much high noise rates could be handled.
+As an extreme example, one could consider reading non-zero-suppressed data 
+into the DAQ system.
