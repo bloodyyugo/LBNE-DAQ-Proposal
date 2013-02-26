@@ -25,8 +25,8 @@ One of the RCEs on each COB will function as the timing interface.  The  externa
 
 
 \begin{figure}[p]
-\includegraphics[scale=0.6,angle=90]{LBNE-DAQ-BlockDiagram.pdf}
-\caption{Block diagram of the RCE-based DAQ for a single TPC APA.}
+\includegraphics[scale=0.6,angle=90]{LBNE-DAQ-BlockDiagram-35t.pdf}
+\caption{Block diagram of the RCE-based DAQ for a single TPC APA in the 35kt prototype.}
 \label{fig:blockDiag}
 \end{figure} 
 
@@ -72,7 +72,7 @@ For this proposal, we do not define a definite role for the RCEs in data process
 
 \subsection{Timing Distribution System}
 
-The timing distribution system for the NOvA detector\cite{bib:novaTiming} meets the needs of LBNE very well.  The system includes a master timing unit (MTU) with GPS and slave timing units (STU) which can be distributed to the crates about the detector and are self-correcting for propagation delays.  We propose  to use this system as well, both for the full 10kT detector and for the 35t prototype.  For the prototype, this sophisticated system is not strictly necessary; for the RCE-based DAQ there will likely only be one board and the GPS timing isn't required since there is no beam.  However, since there is no hardware (there will be some firmware) to develop and we will need this system for full LBNE we may as include it. 
+The timing distribution system for the NOvA detector\cite{Ayres:2007tu} meets the needs of LBNE very well.  The system includes a master timing unit (MTU) with GPS and slave timing units (STU) which can be distributed to the crates about the detector and are self-correcting for propagation delays.  We propose  to use this system as well, both for the full 10kT detector and for the 35t prototype.  For the prototype, this sophisticated system is not strictly necessary; for the RCE-based DAQ there will likely only be one board and the GPS timing isn't required since there is no beam.  However, since there is no hardware (there will be some firmware) to develop and we will need this system for full LBNE we may as include it. 
 
 The NOvA timing system has a fiber optic output which will be used to carry the clock and  be read into one RTM in the crate and then distributed by the COB to all RCEs in the cluster (or possibly 1-per-RTM).  The clock will then be distributed  back through the RTM to the FEBs.   The SFP transceiver on the RMT for the timing signal will be either installed on a RTM daughter board or be included in a custom (though almost trivially different) RTM design.  
 
