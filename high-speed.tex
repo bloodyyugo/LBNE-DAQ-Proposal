@@ -1,0 +1,16 @@
+The baseline DAQ design for the full LBNE FD envisions a high degree of zero-suppression 
+occuring in the in-cryostat electronics and a rather modest total data rate (about
+300 Mb/second/APA) being transmitted to the backend DAQ.
+This rate would be spread over roughly 20 cables transmitting at a maximum rate of 
+20 Mbit/second.
+This approach has a number of advantages in that the low transmission speed is likely 
+achievable with standard cables and issues of impedance matching are less of a concern.
+However, it does rely on the zero-suppression algorithm being nearly perfect and has 
+little headroom in case unexpected backgrounds or noise are present.
+
+Raising the transmission bandwidth between FEB and DAQ thus seems desirable. 
+An extreme case of this would be to go to the highest possible bandwidth carriable over
+copper wires.
+With current technology, this rate is about 5 Gbit/second. 
+Cables capable of carrying this rate over distances of about 5 meters are commercially
+available.
