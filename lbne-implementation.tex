@@ -3,7 +3,7 @@
 
 The elements of the DAQ-toolkit described in the previous section can be easily applied to the LAr TPC for LBNE.  The block diagram of a possible configuration is shown in Fig. \ref{fig:blockDiag}.  We define the "front-end DAQ" as everything between the (cold) FPGA and the ATCA shelf; from the ATCA-shelf onward is referred to as the "back-end DAQ".    The primary goal of this document is to propose a solution for the back-end DAQ and so, for this purpose, we will assume that the signals come into the back-end DAQ from the output of the front-end board (FEB) FPGA, each of which collects the output of  $8\times 16 = 128$ TPC wires.  
 
-The basic structure of the back-end RCE-based DAQ is fairly straightforward.  The data from the ADCs is encoded (possibly using the PGP protocol; see Appendix \ref{bll}) in the FEB FPGA and driven out of the cryostat to a "flange board" which converts the electrical signal to an optical signal.  The flange board is an optional step, but one which allows the back-end DAQ crates to be conveniently placed without worrying about signal degradation.   The optical signal is then sent to the RTM which interfaces with the COB.  The RTM also incorporates the output to the DAQ PC farm via 8 x 10 Gbps ethernet.  The RCEs on the COB can be used to perform event building or even some level of pattern recognition. 
+The basic structure of the back-end RCE-based DAQ is fairly straightforward.  The data from the ADCs is encoded (possibly using the PGP protocol; see Appendix \ref{bll}) in the FEB FPGA and driven out of the cryostat to a "flange board" which converts the electrical signal to an optical signal.  The flange board is an optional step, but one which allows the back-end DAQ crates to be conveniently placed without worrying about signal degradation.   The optical signal is then sent to the RTM which interfaces with the COB.  The RTM also incorporates the output to the DAQ PC farm via 8 x 10 Gbps Ethernet.  The RCEs on the COB can be used to perform event building or even some level of pattern recognition. 
 
 One of the RCEs on each COB will function as the timing interface.  The  external timing  signals will be received via optical fiber to the RTM and will be distributed to the other DPMs and out (through the RTM) to all of the FEBs.  A scheme exists for distributing the timing over the PGP link.  
 
@@ -24,11 +24,12 @@ One of the RCEs on each COB will function as the timing interface.  The  externa
 
 
 
-\begin{figure}[p]
+\begin{figure}[hp]
 \includegraphics[scale=0.6,angle=90]{LBNE-DAQ-BlockDiagram-35t.pdf}
-\caption{Block diagram of the RCE-based DAQ for a single TPC APA in the 35kt prototype.}
+\caption{Block diagram of the RCE-based DAQ for a single TPC APA in the 35t prototype.}
 \label{fig:blockDiag}
 \end{figure} 
+\clearpage
 
 \subsection{Flange Board}
 
@@ -56,11 +57,11 @@ It is simple (but more time consuming and costly) to design a new RTM and, depen
 
 The COB can be populated with any number between 1 and 8 RCEs, which each RCE servicing 6 input channels.  The RCEs reside on a mezzanine board which can hold up to 2 RCEs/board with up to four mezzanine boards/COB.  The mezzanine boards are "portable"; one may take a mezzanine board out of one COB and put it in another (for instance to expand the channel count of an existing COB).  
 
-For the 35t prototype, assuming 18 channels of TPC data plus at least one other input for timing, we need two fully populated mezzanine boards (4 RCEs).  Alternatively, we could pull 2 ouputs/FEB and spread the bandwidth and processing over 36 RTM inputs and 7 RCEs (one for timing). 
+For the 35t prototype, assuming 18 channels of TPC data plus at least one other input for timing, we need two fully populated mezzanine boards (4 RCEs).  Alternatively, we could pull 2 outputs/FEB and spread the bandwidth and processing over 36 RTM inputs and 7 RCEs (one for timing). 
 
 %With this configuration, we would have the bandwidth to handle all of the 35t non-zero suppressed data (roughly 4.0Gbps/2 channels, including overhead).  
 
-Each RCE on the COB has a large amount of data processing power (both FPGA and processor based) and the COB itself acts as large bandwidth ethernet connecting all RCEs.  In addition, each RTM/COB connects to the back-end farm via 8x10Gbps TCP/IP ethernet links.  This gives us many options for data flow to the back-end CPU farm depending on how much or little data processing we want the DAQ to do.  Some of the options are:
+Each RCE on the COB has a large amount of data processing power (both FPGA and processor based) and the COB itself acts as large bandwidth Ethernet connecting all RCEs.  In addition, each RTM/COB connects to the back-end farm via 8x10Gbps TCP/IP Ethernet links.  This gives us many options for data flow to the back-end CPU farm depending on how much or little data processing we want the DAQ to do.  Some of the options are:
 \begin{itemize}
 \item use the COB simple as a pass-through; send all data from the front-end to the farm without any modification
 \item organize the data into (for example) larger time slices and then send these packets on for further processing and triggering
@@ -74,7 +75,7 @@ For this proposal, we do not define a definite role for the RCEs in data process
 
 The timing distribution system for the NOvA detector\cite{Ayres:2007tu} meets the needs of LBNE very well.  The system includes a master timing unit (MTU) with GPS and slave timing units (STU) which can be distributed to the crates about the detector and are self-correcting for propagation delays.  We propose  to use this system as well, both for the full 10kT detector and for the 35t prototype.  For the prototype, this sophisticated system is not strictly necessary; for the RCE-based DAQ there will likely only be one board and the GPS timing isn't required since there is no beam.  However, since there is no hardware (there will be some firmware) to develop and we will need this system for full LBNE we may as include it. 
 
-The NOvA timing system has a fiber optic output which will be used to carry the clock and  be read into one RTM in the crate and then distributed by the COB to all RCEs in the cluster (or possibly 1-per-RTM).  The clock will then be distributed  back through the RTM to the FEBs.   The SFP transceiver on the RMT for the timing signal will be either installed on a RTM daughter board or be included in a custom (though almost trivially different) RTM design.  
+The NOvA timing system has a fiber optic output which will be used to carry the clock and  be read into one RTM in the crate and then distributed by the COB to all RCEs in the cluster (or possibly 1-per-RTM).  The clock will then be distributed  back through the RTM to the FEBs.   The SFP transceiver on the RTM for the timing signal will be either installed on a RTM daughter board or be included in a custom (though almost trivially different) RTM design.  
 
 \subsection{Photon Detector Readout}
 
@@ -154,7 +155,7 @@ Full LBNE:
 %\subsection{Summary of DAQ Layout for 10kT LBNE}
 
 
-\subsection{Comparision of RCE-based vs DCM-based back-end DAQ Systems}
+\subsection{Comparison of RCE-based vs DCM-based back-end DAQ Systems}
 
 \input{dcm-comparison}
 
