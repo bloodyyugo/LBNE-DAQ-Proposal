@@ -21,7 +21,7 @@ are advantageous for implementation of the DAQ Toolkit.
 
 The ATCA ``shelf'' is the equivalent of a VME crate. 
 Commercially available shelves contain from two to sixteen slots. 
-Each slot contains a Front-Board and Rear Transition Module (RTM),
+Each slot contains a Front-Board (FB) and Rear Transition Module (RTM),
 which are mated together within the slot.
 The modules plug into backplanes, which are passive circuit boards that
 carry the connections between slots. 
@@ -33,13 +33,14 @@ Figure \ref{fig:frontShelf} shows front and back views of a
 \begin{figure}[tbh]
 \includegraphics[scale=0.6]{shelf-front.pdf}
 \includegraphics[scale=0.6]{shelf-back.pdf}
-\caption{Front (top) and back (bottom) views of 5-slot ATCA shelf.}
+\caption{Front (top) and back (bottom) views of 5-slot ATCA shelf with two slots
+occupied.}
 \label{fig:frontShelf}
 \end{figure} 
 
-\subsubsection{The Front-board}
+\subsubsection{The Front Board}
 \label{sec:frontboard}
-The Front Board (FB) constitutes the heart of the ATCA eco-system. 
+The Front Board constitutes the heart of the ATCA eco-system. 
 From a shelf's perspective that board is simply a PCB board, 
 8U wide x 280 mm deep and which plugs into one of its front slots. 
 The board's rear side contains three logical Zones.
@@ -56,8 +57,9 @@ is illustrated in Figure \ref{fig:frontBoard}.
 The SLAC DAQ Toolkit includes an FB called the ``Cluster on Board'' (COB), which is
 described in detail in Section \ref{sec:COB}.
 This board is generic in that it is designed to be used in multiple experiments.
-The external I/0 requirements of a given experiment can be satisfied by producing custom RTMs,
-which can be considered ``personality'' cards specific to a particular experiment. 
+The external I/0 requirements of a given experiment can be satisfied by producing 
+custom RTMs.
+
 
 \begin{figure}[tbh]
 \includegraphics[scale=0.8]{front-boardpdf.pdf}
@@ -68,12 +70,18 @@ which can be considered ``personality'' cards specific to a particular experimen
 \subsubsection{Rear Transition Module}
 \label{sec:rtm}
 The RTM (Rear-Transition-Module) is simply a PCB board, 
-8U wide x 70 mm deep which is used to extend a front-board and  
-house a board's external, I/O interface. 
+8U wide x 70 mm deep which is used to house a Front Board's 
+external I/O interface. 
 The RTM connects to its front-board through Zone 3, which,
 for the COB provides up to 120 differential pairs.
-Each one of its four DPM bays 
+Each one of the COB's four Data Processor Module (DPM) bays 
 is assigned 1/4 of those pins or thirty (30) pairs (see Section \ref{sec:COB}).
+The specific I/0 requirements for different experiments (copper, fiber, custom 
+connectors, etc.) can be satisfied with different RTM cards, which
+plug into a generic COB board.
+The RTM can thus 
+be considered ``personality'' cards specific to a particular experiment. 
+
 
 %\subsubsection{IPMI and Shelf Manager}
 %\label{sec:shelfManager}
@@ -85,12 +93,14 @@ is assigned 1/4 of those pins or thirty (30) pairs (see Section \ref{sec:COB}).
 
 \subsection{Cluster-on-Board}
 \label{sec:COB}
-The COB (Cluster-On-Board) is an ATCA compliant Front-Board with a PICMG 3.8 Zone 3. 
+The COB (Cluster-On-Board) is an ATCA compliant Front Board with a PICMG 3.8 Zone 3. 
 Functionally, the COB serves as a carrier board for the Reconfigurable Cluster
-Elements (RCEs)hosting the firmware and software developed for LBNE (see Section \ref{sec:RCE}). 
-Those RCEs are mounted on mezzanine boards (see Section \ref{sec:Mezzanine}), 
+Elements (RCEs) hosting the firmware and software developed for 
+a given experiment (see Section \ref{sec:RCE}). 
+Those RCEs are mounted on mezzanine boards 
+%(see Section \ref{sec:Mezzanine}), 
 which in turn plug into one of five bays on the COB. 
-Th bays are connected to the COB's two separate, 
+The bays are connected to the COB's two separate, 
 independent Interconnects as well as its Zone 3 connectors. 
 Interconnects provide arbitrary, high speed communication 
 paths between the elements contained on the bay's mezzanine boards,
@@ -100,7 +110,7 @@ a COB draws closer to 120 watts.
 This board is one deliverable from SLAC's R \& D program on high-speed DAQ. 
 As such, LBNE simply purchases this board and from its perspective, 
 that board consequently requires neither design nor development.
-A photograph of that COB (in preproduction form) with its five bays 
+A photograph of a COB (in preproduction form) with its five bays 
 occupied is shown in Figure \ref{fig:cob}.
 
 
@@ -110,7 +120,6 @@ occupied is shown in Figure \ref{fig:cob}.
 \label{fig:cob}
 \end{figure} 
 
-
 The COB contains five (5) bays; one (1) Data Transport Module (DTM) bay 
 and four (4) Data Processing Module (DPM) bays. 
 Although all bays share identical form factors and connectors, 
@@ -118,7 +127,7 @@ they can be differentiated, primarily by how they connect to Zone 3,
 with the DTM connecting only to its power connector and the DPM 
 only to its signal connectors.
 
-The mezzanine board plugged into the DTM (Data-Transport-Module) 
+The mezzanine board plugged into the Data Transport Module (DTM) 
 contains a single RCE that has the fixed, dedicated responsibility for 
 managing both of the board's interconnects. 
 For this purpose it contains specific firmware and software. 
@@ -132,7 +141,7 @@ as well as the tools (software) to configure and monitor that switch.
 Note, however, that while the DTM's RCE has predefined, base 
 responsibilities it also remains accessible for user applications.
 
-The mezzanine board plugged into a DPM (Data-Processing-Module)
+The mezzanine board plugged into a Data Processing Module (DPM)
 bay contains two (2) RCEs. 
 Each DPM provides connections to thirty 
 (30) differential pairs originating from the RTM, 
@@ -142,14 +151,15 @@ two RCEs is arbitrary and determined by application.
 
 \subsection{Interconnects}
 \label{sec:Interconnects}
-There are two distinct ``interconnects''  providing communication between RCE's: the
+There are two distinct ``interconnects''  providing communication 
+between RCE's: the
 ``fabric'' interconnect and the ``base'' interconnect.
 
 
 The fabric interconnect contains, as its principal feature, 
 a local, 10-Gigabit Ethernet (10-GE).
-Packets are switched on that network using a commercial  ASIC. 
-That ASIC is a fully compliant Layer-2, 10G-Ethernet switch. 
+Packets are switched on that network using a commercial ASIC
+that is a fully compliant Layer-2, 10G-Ethernet switch. 
 Although fully provisioned for buffered transfer, switch operation is, 
 by default, cut-through with an ingress/egress latency of less than 200 Nanoseconds.
 It is also a fully managed switch with a PCIe interface connected to the DTM's RCE. 
@@ -185,12 +195,12 @@ distributed over this interconnect is application specific.
 
 \subsection{Reconfigurable Cluster Element}
 \label{sec:RCE}
-The RCE (Reconfigurable-Cluster-Element) is a bundled set of hardware, 
+The Reconfigurable Cluster Element (RCE) is a bundled set of hardware, 
 firmware and software components. 
 Together, those components form a generic computational element 
 targeted to process efficiently, with low latency, those
 kinds of data found passing through HEP DAQ systems. 
-The RCE is optimized for those three features. 
+%The RCE is optimized for those three features. 
 Physically, one element can be contained in a footprint of less than 32 cm$^2$, 
 typically draws less than eight (8) watts, costs (in small quantities) 
 around \$1000 and contains a native 10-Gigabit Ethernet interface. 
@@ -199,7 +209,7 @@ the nature of ethernet as well as functionality within that switch
 allows for the composition of arbitrary numbers of cluster hierarchies. 
 For example, from the RCE perspective, the COB represents a single cluster 
 of nine (9) RCEs and its ATCA shelf is simply a container for a 
-single level hierarchy of up to fourteen (14) nine node clusters. 
+single level hierarchy of up to fourteen (14) nine-node clusters. 
 A block diagram of the major physical features of the RCE is illustrated in Figure 
 \ref{fig:RCEblock}.
 
@@ -209,14 +219,14 @@ A block diagram of the major physical features of the RCE is illustrated in Figu
 \label{fig:RCEblock}
 \end{figure} 
 
-The principal implementation feature of the RCE is in its reuse 
+The principal implementation feature of the RCE is its reuse 
 of System-On-Chip (SOC) technology, specifically, members of 
 Xilinx Virtex family.
-The current generation of RCE to be used for the 35t protoype would be 
-a Zynq chip, which is part of the Virtex-7 family. 
+The current generation of RCE, which we propose to use
+for the 35t protoype uses a Zynq chip, which is part of the Virtex-7 family. 
 The RCE is neither processor, FPGA or DSP. 
 Instead, it can be simultaneously any combination of the three. 
-Within its fabric the FPGA contains both soft (user defined) 
+Within its fabric, the FPGA contains both soft (user defined) 
 and hardened (manufacture defined) silicon. 
 That fabric is configured automatically on POR (Power-On-Reset) 
 and is either downloaded directly from images previously stored on the 
@@ -228,8 +238,8 @@ Xilinx refers generically to its set of different, hardened silicon as resources
 Among the more important of those resources are high speed serializers/deserializers,
  I/O adapters, DSP tiles, dual-port RAM and of course, its processor. 
 The RCE allocates the processor as well as a modest number of additional
- resources and soft silicon for its CE (Cluster-Element). 
-The Cluster Element (CE) has exclusive use of, but interfaces indirectly with its external
+ resources and soft silicon for its Cluster Element(CE). 
+The CE has exclusive use of, but interfaces indirectly with its external
 DDR3 memory and micro-SD flash system. 
 Memory is packaged as SO-DIMM and the micro-SD flash is removable, 
 allowing its capacity to be determined by user application.
@@ -278,7 +288,8 @@ Although the CE is itself O/S agnostic, its system resident software is
 not and depends on functionality best provided by the services of an underlying O/S.
 In the Gen 3 RCE, this will be Linux.
 \item Persistency:
-Access to micro-SD based media using its bundled PPI. 
+Access to micro-SD based media using its bundled Protocol
+Plug-In (PPI). 
 That media is formatted as FAT-16 and is used by the CE 
 for storage of system code and configuration (see bootstrapping above). 
 However, that media is available directly to applications 
@@ -293,7 +304,7 @@ Local debugging (SMD) interfaces to JTAG through standard Xilinx tools.
 Remote, network based, debugging uses the GNU interface.
 \item Diagnostics: Built-in self-tests as well as diagnostics. 
 These are included on the CE as an alternate boot image providing the 
-ability to rescure or repair inadvertent burns of the micro-SD media.  
+ability to rescue or repair inadvertent burns of the micro-SD media.  
 Development employs the GNU cross-development environment.
 \end{itemize}
 
