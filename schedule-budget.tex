@@ -1,12 +1,6 @@
 \section{Schedule and Budget}
 
-The proposed schedule and estimate of costs for the 35t prototype RCE-based DAQ is shown inFig. \ref{fig:budget35t}.  
-The two most important milestones in the budget are the prouduction of the first
-working test stand, which occurs in November 2013, and the beginning of a full
-system test (including the FEB), which begins in February 2014. 
-Achieving these milestones will make the full DAQ system available for data-taking
-in the 35t prototype by later summer 2014.
-
+The proposed schedule and estimate of costs for the 35t prototype RCE-based DAQ is shown in Fig. \ref{fig:budget35t}.  The total cost is estimated to be $\sim$111k and be roughly half material and equipment and half labor.  We expect to deliver a full working back-end DAQ system for 35t by April 2014.  
 
 \begin{figure}[htb]
 \includegraphics[scale=0.8,angle=90]{project-gantt.pdf}
@@ -14,17 +8,12 @@ in the 35t prototype by later summer 2014.
 \label{fig:budget35t}
 \end{figure} 
 
-This proposal uses the Gen-3 COBs which are expected to be available in September 
-2013 at the latest.  The Gen-3 COBs will use the Virtex ZYNQ SoC (series-7) which has many advantages over the series-5 previously used.  Probably the most important feature for our purposes is that it is distributed with with a Linux distribution.  This makes software development much simpler; we can develop our algorithms in C++ on a Linux PC and simply copy them directly to the RCEs.  
+This proposal uses the Gen-3 COBs \& RCEs which are expected to be available in September 
+2013 at the latest.  The Gen-3 RCEs will use the Virtex ZYNQ SoC (series-7) which has many advantages over the series-5 previously used.  Probably the most important feature for our purposes is that it is distributed with with a Linux distribution.  This makes software development much simpler; we can develop our algorithms in C++ on a Linux PC and simply copy them directly to the RCEs.  
 
 The budget includes 4 DAQ test stands composed of a 2-slot ATCA crate (with power), a COB and RTM, a mezzanine board with a single RCE, a simplified flange board, and an emulation board.  The emulation board will consist of a Virtex-5 FPGA programmed to output data with format and rate  similar to that expected from the TPC FEB and transmit it to the flange board via copper.  The test stands will allow us to develop the DAQ system at places other than at SLAC.  One of these test stands can likely be used for the 35t DAQ system.    Much of the development needed to get the first test-stand working will be covered under a SLAC LDRD so, for project purposes, is considered to be available at no cost.  
 
-There are a number of tasks necessary for the complete working system that can be done semi-independently of the full ATCA-based DAQ.  
-Because the Gen-3 COBs are not required for much 
-of work, preliminary work on some of these items can start 
-immediately on test boards or PCs.
-%which is advantageous because we don't expect to receive the Gen-3 boards until August.  
-All of the tasks listed can be performed by non-SLAC labs or universities with a low-level of SLAC support.  
+There are a number of tasks necessary for the complete working system that can be done semi-independently of the full ATCA-based DAQ.  Preliminary work on some of these items can start immediately on test boards or PCs which is advantageous because we don't expect to receive the Gen-3 boards until August.  All of the tasks listed can be performed by non-SLAC labs or universities with a low-level of SLAC support.  
 \begin{itemize}
 \item \textbf{Timing/Trigger:  }The external clock (and possibly trigger) must be integrated into the RTM/COB and distributed to the FEBs.  Much of this work likely requires a COB.  Details on the clock and trigger signals may be necessary for RTM design.   The existing NOvA timing units may be a good match for the 35t prototype; in this case the output of that system must be integrated the RCE-based design.  
 \item \textbf{Event Building:  }If desired, some level of event building can be performed in the COBs before sending to the PC farm.  This work can be done by a physicist and can be started at any time with C++ code on a Linux PC and be transfered to the RCEs when ready.   
@@ -68,7 +57,7 @@ All of the tasks listed can be performed by non-SLAC labs or universities with a
   14-Slot ATCA Shelf   & 6,500              &  ---         &    ---    &  4  &  26,000  \\ 
      RTM+COBs             & 3,500              &  3         &    10,500     &    50   &   175,000\\ 
    Mezzanine Board     & 350                &  5         &       1,050    &  16   &  5,600 \\ 
-   Zynq-based RCE	   & 650                &  8          &   5,200        &   32    &208,000\\ 
+   Zynq-based RCE	   & 1000                &  8          &   8,000        &   32    &320,000\\ 
    Flange Boards          & 1,500              &  4          &  6000        & 50          & 75,000\\ 
    Emulation Boards     & 1,500              &  4          &  6000        &  ---        &    ---  \\ 
 \hline \hline
