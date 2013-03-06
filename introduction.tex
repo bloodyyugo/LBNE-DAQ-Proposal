@@ -13,7 +13,8 @@ The Level 3 requirements for this system include\cite{DAQ_REQ}:
 \end{itemize}
 The DAQ-7 requirement is relevant mainly to non-beam physics. 
 As such, it was left out of the requirements at the time of CD-1, which 
-assumed a surface-located Far Detector (FD) with 3 MWE overburden. 
+assumed a surface-located Far Detector (FD) with 3 meter-water-equivalent (MWE)
+overburden. 
 Nonetheless, continuous readout remains a valuable goal that would be desirable 
 to have in the final LBNE DAQ system and is planned for in the 35t prototype.
 
@@ -27,7 +28,7 @@ algorithm is running in the cold electronics,
 the rate is dominated by cosmic ray muons.
 Note, however, that common-mode noise,
 which may be appreciable,
-is not accounted for in this table.
+is not included in this table.
 
 \begin{table}[h]
 \begin{tabular}{|p{1.5in}|c|c|c|}
@@ -56,16 +57,15 @@ The APA(s) of this device are likely to be somewhat smaller than
 those of the full LBNE FD and there will be very little overburden.
 The rates listed above are thus only a rough estimate of those to be
 expected in the 35t.
-Nonetheless, we adopt them for the following design studies.
+Nonetheless, we adopt them for the following discussions.
 
 The key electronics module that needs to be provided for the back-end DAQ is 
 one that is capable of reading the data streams from each of the
 APA's and concentrating the data down to a smaller number of high-bandwidth 
 data streams that are then passed to an event-building network.
-This is commonly needed function in modern HEP experiments that has frequently 
+This is a commonly needed function in modern HEP experiments that has frequently 
 been addressed with custom modules built explicitly for a single experiment.
-This may require significant development time.
-However, the modules produced quickly
+This may require significant development time, and the modules produced quickly
 become obsolete, as available networking technology progresses.
 Furthermore, the modules are not typically produced with reusability
 in mind.
@@ -75,22 +75,22 @@ subsequent experiments.
 The SLAC Research Electronics Group (REG) has developed a solution to these 
 problems of obsolescence and lack-of-reusability
 by producing a hardware system, together with firmware and software, that can
-be adapted for use in multiple experiments.
+be easily adapted for use in different experiments.
 The development costs are then leveraged over multiple experiments, allowing 
 each of them to benefit from the latest networking hardware, at a significant 
 reduction in development costs. 
 This ``DAQ toolkit'' uses the modern Advanced Telecommunications Architecture 
-(ATCA)for its physical structure.
+(ATCA) for its physical structure.
 The toolkit is not an ``off the shelf'', DAQ system.
 Rather, it provides tools that can be used by individual experiments to 
 build modern DAQ systems with significantly lower development costs than
-woudl be needed to build fully custom systems.
+would be needed to build fully custom systems.
 
 The key element of the toolkit is the Reconfigurable Cluster Element (RCE).
-The RCE is based on a Virtex  ``System on a Chip'', which could be 
-either a Virtex 5 chip (RCE Gen 2) or Zynq chip (RCE Gen 3).
-A single board combining several of these RCE's can handle very high bandwidths measured
-in the 100's of Gigabits/second. 
+The RCE is the third generation of development (Gen 3) and is
+based on a Virtex Zynq ``System on a Chip''.
+A single board combining several of these RCE's can handle very high bandwidths 
+measured in the 100's of Gigabits/second. 
 This system has been adopted in several HEP experiments already, and will likely 
 be adopted by more in the future. 
 The REG is continuing to develop and support new generations 
